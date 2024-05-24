@@ -1,69 +1,84 @@
 <script setup lang="ts">
     import {
-        ElCol,
-        ElRow,
         ElSubMenu,
         ElMenu,
         ElMenuItem,
         ElIcon,
-        ElMenuItemGroup,
 
     } from "element-plus";
     import {
         Document,
         Menu as IconMenu,
-        Location,
-        Setting,
+        Share,
+        Files,
+        Picture,
+        VideoPlay,
+        Headset,
+        Fold,
+        Expand,
+        MoreFilled
     } from "@element-plus/icons-vue";
     import { ref, type Ref } from "vue";
-    const handleOpen = (key: string, keyPath: string[]) => {
-        console.log(key, keyPath);
-    };
-    const handleClose = (key: string, keyPath: string[]) => {
-        console.log(key, keyPath);
-    };
+
+    const isCollapse: Ref<boolean> = ref(true)
+
+    const subMenu = ref([
+        { icon: Picture, content: "图片" },
+        { icon: Document, content: "文档" },
+        { icon: VideoPlay, content: "视频" },
+        { icon: Headset, content: "音频" },
+        { icon: MoreFilled, content: "其他" },
+    ])
+
+
 </script>
 
 <template>
-    <el-col :span="24">
-        <el-menu default-active="2" style="height: 100%" @open="handleOpen" @close="handleClose">
-            <el-sub-menu index="1">
-                <template #title>
-                    <el-icon>
-                        <location />
-                    </el-icon>
-                    <span>Navigator One</span>
-                </template>
-                <el-menu-item-group title="Group One">
-                    <el-menu-item index="1-1">item one</el-menu-item>
-                    <el-menu-item index="1-2">item two</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="Group Two">
-                    <el-menu-item index="1-3">item three</el-menu-item>
-                </el-menu-item-group>
-                <el-sub-menu index="1-4">
-                    <template #title>item four</template>
-                    <el-menu-item index="1-4-1">item one</el-menu-item>
-                </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="2">
-                <el-icon><icon-menu /></el-icon>
-                <span>Navigator Two</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
+    <el-menu default-active="2" :collapse="isCollapse" class="side-bar">
+        <el-menu-item index="1" @click="isCollapse = !isCollapse">
+            <el-icon>
+                <Fold v-if="isCollapse" />
+                <Expand v-else />
+            </el-icon>
+        </el-menu-item>
+        <el-menu-item index="2">
+            <el-icon><icon-menu /></el-icon>
+            <span>首页</span>
+        </el-menu-item>
+        <el-sub-menu index="2">
+            <template #title>
                 <el-icon>
-                    <document />
+                    <Files />
                 </el-icon>
-                <span>Navigator Three</span>
-            </el-menu-item>
-            <el-menu-item index="4">
+                <span>文件</span>
+            </template>
+            <el-menu-item v-for="item, index in subMenu" :key="index">
                 <el-icon>
-                    <setting />
+                    <component :is="item.icon"></component>
                 </el-icon>
-                <span>Navigator Four</span>
+                <span>{{ item.content }}</span>
             </el-menu-item>
-        </el-menu>
-    </el-col>
+        </el-sub-menu>
+        <el-menu-item index="4">
+            <el-icon>
+                <Share />
+            </el-icon>
+            <span>分享</span>
+        </el-menu-item>
+        <el-menu-item index="5">
+            <el-icon>
+                <Share />
+            </el-icon>
+            <span>回收站</span>
+        </el-menu-item>
+    </el-menu>
+
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+    .side-bar {
+        height: 100%;
+        // outline: auto red;
+    }
+
+</style>
