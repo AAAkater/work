@@ -1,13 +1,35 @@
 <script setup lang="ts">
-    import {
-        ElPageHeader,
-        ElBreadcrumb,
-        ElBreadcrumbItem,
-    } from "element-plus";
-    import { ref, type Ref } from "vue";
+import {
+    ElPageHeader,
+    ElBreadcrumb,
+    ElBreadcrumbItem,
+    ElIcon,
+    ElButton
+} from "element-plus";
+
+import {
+    Upload,
+    FolderAdd
+} from "@element-plus/icons-vue"
+import { ref, type Ref } from "vue";
 </script>
 
 <template>
+
+    <div class="buttons">
+        <el-button type="primary">
+            <el-icon>
+                <Upload />
+            </el-icon>
+            <span>上传文件</span>
+        </el-button>
+        <el-button type="primary" text>
+            <el-icon>
+                <FolderAdd />
+            </el-icon>
+            <span>创建新文件夹</span>
+        </el-button>
+    </div>
     <el-page-header>
         <template #breadcrumb>
             <el-breadcrumb separator="/">
@@ -24,4 +46,8 @@
     </el-page-header>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.buttons {
+    margin: 20px 0 20px 0;
+}
+</style>
