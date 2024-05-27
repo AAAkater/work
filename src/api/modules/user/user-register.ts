@@ -5,6 +5,7 @@ const url: string = "/user/register";
 
 export const userRegister = async ({
   captcha,
+  captchaId,
   email,
   emailCode,
   password,
@@ -12,6 +13,7 @@ export const userRegister = async ({
 }: registerBody) => {
   const body: Record<string, string> = {
     captcha: captcha,
+    captchaId: captchaId,
     email: email,
     emailCode: emailCode,
     password: password,
@@ -20,17 +22,3 @@ export const userRegister = async ({
 
   return request.post(url, body);
 };
-
-// const d = async () => {
-//   let res = await userRegister({
-//     captcha: "1233",
-//     email: "sfsa.com",
-//     emailCode: "123r",
-//     password: "bccc",
-//     username: "nnn",
-//   });
-
-//   console.log(res);
-// };
-
-// d();
