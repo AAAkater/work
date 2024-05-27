@@ -7,10 +7,12 @@ export const userLogin = async ({
   username,
   password,
   captcha,
+  captchaId,
 }: loginBody) => {
   const body: Record<string, string> = {
     password: password,
     captcha: captcha,
+    captchaId: captchaId,
   };
   if (email) {
     body["email"] = email;
