@@ -20,16 +20,16 @@ import {
     House,
     Delete
 } from "@element-plus/icons-vue";
-import { ref, type Ref } from "vue";
+import { ref, type Ref, markRaw } from "vue";
 
 const isCollapse: Ref<boolean> = ref(true)
 
 const subMenuItems = ref([
-    { icon: Picture, content: "图片" },
-    { icon: Document, content: "文档" },
-    { icon: VideoPlay, content: "视频" },
-    { icon: Headset, content: "音频" },
-    { icon: MoreFilled, content: "其他" },
+    { icon: markRaw(Picture), content: "图片" },
+    { icon: markRaw(Document), content: "文档" },
+    { icon: markRaw(VideoPlay), content: "视频" },
+    { icon: markRaw(Headset), content: "音频" },
+    { icon: markRaw(MoreFilled), content: "其他" },
 ])
 
 
@@ -58,7 +58,7 @@ const subMenuItems = ref([
             </template>
             <el-menu-item v-for="item, index in subMenuItems" :key="index">
                 <el-icon>
-                    <component :is="item.icon"></component>
+                    <component :is="item.icon" />
                 </el-icon>
                 <span>{{ item.content }}</span>
             </el-menu-item>
