@@ -10,9 +10,6 @@ export const changePassword = async ({
   oldPassword,
   emailCode,
 }: changePasswordBody) => {
-  const header: Record<string, string> = {
-    Authorization: useUserStore().token,
-  };
   const body = {
     userId: userId,
     newPassword: newPassword,
@@ -20,5 +17,5 @@ export const changePassword = async ({
     emailCode: emailCode,
   };
 
-  return request.post(url, body, { headers: header });
+  return request.post(url, body);
 };

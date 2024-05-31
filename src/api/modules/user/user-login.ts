@@ -1,6 +1,6 @@
 import { request } from "@/utils/request";
 import { type loginBody } from "@/api/type";
-
+import { useUserStore } from "@/stores";
 const url: string = "/user/login";
 export const userLogin = async ({
   email,
@@ -20,5 +20,12 @@ export const userLogin = async ({
     body["username"] = username;
   }
 
-  return request.post(url, body);
+  const res = await request.post(url, body);
+  // 登录成功就存储token
+  if (res.status === 200 && res.data.message === "ok") {
+    const userStore = useUserStore();
+    userStore.setUserToken(res.data.data);
+  }
+
+  return res;
 };
