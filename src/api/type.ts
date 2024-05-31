@@ -1,3 +1,5 @@
+import exp from "constants";
+
 /**
  * @param {string} email 邮箱
  * @param {string} username 用户名
@@ -47,4 +49,26 @@ export interface changePasswordBody {
   newPassword: string;
   oldPassword: string;
   userId: string;
+}
+/**
+ * @param {string} fileType 文件类型
+ * @param file 文件
+ * @param {string} parentFolderId 所属文件夹Id
+ * @export
+ * @interface uploadFileBody
+ */
+export interface uploadFileBody {
+  fileType: string;
+  file: any;
+  parentFolderId: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface createFolderBody
+ */
+export interface createFolderBody {
+  parentFolderId: string;
+  folderName: string;
 }
