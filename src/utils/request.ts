@@ -4,7 +4,8 @@ import axios, {
     type AxiosResponse,
 } from 'axios'
 
-let url = `http://localhost:8080/`
+let url= `http://127.0.0.1:4523/m1/4513055-0-default/captcha/image` //mock
+// let url = `http://localhost:8080/`
 let Host = `127.0.0.1`
 
 const instance = axios.create({
