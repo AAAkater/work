@@ -147,3 +147,43 @@ export interface moveFolderBody {
   newFolderId: string;
   oldFolderId: string;
 }
+/**
+ *
+ *
+ * @export
+ * @interface deleteFileBody
+ */
+export interface deleteFileBody {
+  fileId: string;
+  fileType: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface deleteFolderBody
+ */
+export interface deleteFolderBody {
+  folderId: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface modifyFileNameBody
+ */
+export interface modifyFileNameBody {
+  fileId: string;
+  fileType: string;
+  newFileName: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface modifyFolderNameBody
+ */
+export interface modifyFolderNameBody {
+  folderId: string;
+  newFolderName: string;
+}
