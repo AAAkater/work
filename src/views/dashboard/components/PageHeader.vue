@@ -21,6 +21,9 @@ import {
     Rank
 } from "@element-plus/icons-vue"
 import { ref, type Ref, inject, markRaw } from "vue";
+import { useFilesStore } from "@/stores";
+// const filesStore: any = inject("filesStore")
+const filesStore = useFilesStore()
 // 输入框值
 const searchInput: Ref<string> = ref("")
 // 当前文件夹名
@@ -31,7 +34,6 @@ const paths: Ref<string[]> = ref(["homepage", "r1", "r2"])
 const backButton = () => {
     ElMessage("back")
 }
-const filesStore: any = inject("filesStore")
 // 被选中文件的按钮组
 const buttonGroup = ref([
     {

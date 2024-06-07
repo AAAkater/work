@@ -17,7 +17,9 @@ import { type file } from "@/stores/type";
 
 import { files } from "./test-data";
 
-const filesStore: any = inject("filesStore")
+import { useFilesStore } from "@/stores";
+// const filesStore: any = inject("filesStore")
+const filesStore = useFilesStore()
 filesStore.clearFiles()
 
 const selectionChange = (files: file[]) => {
