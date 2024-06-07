@@ -1,13 +1,11 @@
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import { createApp } from "vue";
-import { createPinia } from "pinia";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import App from "./App.vue";
 import router from "./router";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import "@/assets/global.css";
-import { useFilesStore } from "@/stores/index";
+import pinia from "./stores";
 
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -15,8 +13,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use(ElementPlus);
-app.use(createPinia().use(piniaPluginPersistedstate));
+app.use(pinia);
 app.use(router);
-app.provide("filesStore", useFilesStore());
 
 app.mount("#app");

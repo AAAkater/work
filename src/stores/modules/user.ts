@@ -4,17 +4,18 @@ import { ref, type Ref } from "vue";
 export const useUserStore = defineStore(
   "user",
   () => {
-    const token: Ref<string> = ref("");
-    const setToken = (newToken: string) => {
-      token.value = newToken;
+    const userToken: Ref<string> = ref("");
+    const setUserToken = (newToken: string) => {
+      userToken.value = newToken;
     };
-    const removeToken = () => {
-      token.value = "";
+    const removeUserToken = () => {
+      userToken.value = "";
+      localStorage.removeItem("user");
     };
     return {
-      token,
-      setToken,
-      removeToken,
+      userToken,
+      setUserToken,
+      removeUserToken,
     };
   },
   {
