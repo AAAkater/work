@@ -106,3 +106,44 @@ export interface recoverFolderBody {
 export interface downloadFileParam {
   fileId: string;
 }
+/**
+ *
+ *
+ * @export
+ * @interface getFolderInfoBody
+ */
+export interface getFolderInfoParam {
+  folderId: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface searchFileParam
+ */
+export interface searchFileParam {
+  desc: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface moveFileBody
+ */
+export interface moveFileBody {
+  fileId: string;
+  newFolderId: string;
+  oldFolderId: string;
+}
+
+/**
+ *
+ *
+ * @export
+ * @interface moveFolderBody
+ */
+export interface moveFolderBody {
+  folderId: string;
+  newFolderId: string;
+  oldFolderId: string;
+}
