@@ -1,5 +1,4 @@
 import { request } from "@/utils/request";
-import { useUserStore } from "@/stores";
 import type { changePasswordBody } from "@/api/type";
 
 const url: string = "/user/changePassword";

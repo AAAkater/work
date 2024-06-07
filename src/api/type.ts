@@ -1,5 +1,3 @@
-import exp from "constants";
-
 /**
  * @param {string} email 邮箱
  * @param {string} username 用户名
@@ -59,7 +57,7 @@ export interface changePasswordBody {
  */
 export interface uploadFileBody {
   fileType: string;
-  file: any;
+  file: File;
   parentFolderId: string;
 }
 /**
@@ -71,4 +69,40 @@ export interface uploadFileBody {
 export interface createFolderBody {
   parentFolderId: string;
   folderName: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface recoverFileBody
+ */
+export interface recoverFileBody {
+  fileId: string;
+  parentFolderId: string;
+  userId: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface recoverFolderBody
+/**
+ *
+ *
+ * @export
+ * @interface recoverFolderBody
+ */
+export interface recoverFolderBody {
+  folderId: string;
+  parentFolderId: string;
+  userId: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface downloadFile
+ */
+export interface downloadFileParam {
+  fileId: string;
 }
