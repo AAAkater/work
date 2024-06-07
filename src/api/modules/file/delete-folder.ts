@@ -3,7 +3,7 @@ import { request } from "@/utils/request";
 
 const url: string = "/file/deleteFolder";
 
-export const deleteFile = ({ folderId }: deleteFolderBody) => {
+export const deleteFolder = ({ folderId }: deleteFolderBody) => {
   const body = {
     folderId: folderId,
   };
