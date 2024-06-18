@@ -9,7 +9,7 @@ import NavigationBar from "./components/NavigationBar.vue";
 import SideBar from "./components/SideBar.vue"
 import PageHeader from "./components/PageHeader.vue"
 import FileTable from "./components/FileTable.vue"
-import UserInfo from "./components/UserInfo.vue";
+import UserInfo from "../user-info-page/UserInfo.vue";
 
 </script>
 
@@ -23,7 +23,7 @@ import UserInfo from "./components/UserInfo.vue";
             <el-main>
                 <!-- <page-header />
                 <file-table /> -->
-                <user-info/>
+                <user-info />
             </el-main>
         </el-container>
     </el-container>
