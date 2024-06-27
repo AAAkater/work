@@ -3,6 +3,7 @@ import { ref, computed, reactive } from 'vue';
 import type { ComponentSize } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { userLogin } from '@/api'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
 
@@ -31,8 +32,10 @@ const work = ref()
 
 
 const dialogFormVisible = ref(false)
-const submit = () => {
+const submit = async () => {
+    await userLogin{
 
+    }
     dialogFormVisible.value = false;
 };
 const form = reactive({
