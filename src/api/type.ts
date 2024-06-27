@@ -49,6 +49,16 @@ export interface changePasswordBody {
   userId: string;
 }
 /**
+ *
+ *
+ * @export
+ * @interface updateBody
+ */
+export interface updateBody{
+  email: string;
+  username: string;
+}
+/**
  * @param {string} fileType 文件类型
  * @param file 文件
  * @param {string} parentFolderId 所属文件夹Id
@@ -114,6 +124,15 @@ export interface downloadFileParam {
  */
 export interface getFolderInfoParam {
   folderId: string;
+}
+/**
+ * 
+ * 
+ * @export
+ * @interface getFileInfoParam
+ */
+export interface getFileInfoParam{
+  id: string;
 }
 /**
  *
@@ -186,4 +205,13 @@ export interface modifyFileNameBody {
 export interface modifyFolderNameBody {
   folderId: string;
   newFolderName: string;
+}
+/**
+ *
+ *
+ * @export
+ * @interface getEmailParam
+ */
+export interface getEmailParam{
+  email: string;
 }
