@@ -1,3 +1,4 @@
+import NotFound from "@/views/404/NotFound.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -7,6 +8,10 @@ const router = createRouter({
       path: "/",
       component: () => import("@/views/dashboard/layout.vue"),
     },
+    {
+      path:"/404",
+      component: ()=> import("@/views/404/NotFound.vue"),
+    }
     // {
     //   path: '/about',
     //   name: 'about',
