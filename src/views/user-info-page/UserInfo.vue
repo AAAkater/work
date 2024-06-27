@@ -5,7 +5,6 @@ import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
-import FootRight from './components/FootRight.vue';
 
 const size = ref<ComponentSize>('default')
 const iconStyle = computed(() => {
@@ -32,17 +31,16 @@ const work = ref()
 
 
 const dialogFormVisible = ref(false)
+const submit = () => {
+
+    dialogFormVisible.value = false;
+};
 const form = reactive({
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+    username: '',
+    email: '',
+    gender: ''
 })
-const formLabelWidth = '50px'
+const formLabelWidth = '70px'
 
 const imageUrl = ref('')
 
@@ -215,10 +213,13 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="姓名" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" />
+                    <el-input v-model="form.username" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="Email" :label-width="formLabelWidth">
+                    <el-input v-model="form.email" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="性别" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择性别">
+                    <el-select v-model="form.gender" placeholder="请选择性别">
                         <el-option label="男" value="1" />
                         <el-option label="女" value="0" />
                     </el-select>
@@ -227,7 +228,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取消</el-button>
-                    <el-button type="primary" @click="dialogFormVisible = false">
+                    <el-button type="primary" @click="submit()">
                         确认修改
                     </el-button>
                 </div>
