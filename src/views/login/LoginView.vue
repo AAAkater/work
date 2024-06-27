@@ -18,6 +18,7 @@ const form = reactive({
 
 
 const formRef = ref(null)
+//登录接口
 const onSubmit = async () => {
     await formRef.value.validate(async (valid: any) => {
         if (!valid) {
@@ -200,6 +201,7 @@ const rules = reactive<FormRules<RuleForm>>({
     ]
 })
 
+//注册接口
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
