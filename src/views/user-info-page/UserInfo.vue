@@ -7,6 +7,7 @@ import { userLogin } from '@/api'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
 
+
 const size = ref<ComponentSize>('default')
 const iconStyle = computed(() => {
     const marginMap = {
@@ -21,21 +22,51 @@ const iconStyle = computed(() => {
 const nickname = ref('用户名')
 const design = ref("我行我素")
 const account = ref('Asher')
-const age = ref()
+const age = ref('18')
 const sex = ref('男')
-const email = ref()
+const email = ref('3473320899@qq.com')
 const mobilePhoneNumber = ref('18428074640')
 const area = ref("四川")
-const hobby = ref()
-const work = ref()
+const hobby = ref("写代码")
+const work = ref("针灸推拿")
 
 
 
 const dialogFormVisible = ref(false)
+const openDialog = () => {
+    form.email = email.value,
+        form.gender = sex.value,
+        form.username = account.value,
+        dialogFormVisible.value = true
+}
 const submit = async () => {
-    await userLogin{
+    await userUpdate({
+        username: form.username,
+        email: form.email,
+    }).then((res) => {
+        console.log("修改成功");
+        console.log(res);
+        if (res.status == 200) {
+            if (form.gender == '1') {
+                sex.value = '男'
+            }
+            else {
+                sex.value = '女'
+            }
 
-    }
+            ElMessage({
+                message: '修改成功',
+                type: 'success',
+            })
+        }
+    }).catch((err) => {
+        console.log(err);
+        ElMessage({
+            message: '修改失败',
+            type: 'error'
+        })
+    })
+
     dialogFormVisible.value = false;
 };
 const form = reactive({
@@ -77,8 +108,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                     <el-card>
                         <el-descriptions class="margin-top" title="简介" :column="2" size="large" border>
                             <template #extra>
-                                <el-button type="primary" size="medium" plain
-                                    @click="dialogFormVisible = true">操作</el-button>
+                                <el-button type="primary" size="medium" plain @click="openDialog()">操作</el-button>
                             </template>
                             <!-- 列表 -->
                             <el-descriptions-item width>

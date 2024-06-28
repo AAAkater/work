@@ -11,7 +11,7 @@ const goodCounts = ref()
 <template>
     <div class="PersonTop">
         <div class="PersonTop_img">
-            <img v-image-preview />
+            <img src="@/assets/御坂美琴.jpg">
         </div>
         <div class="PersonTop_text">
             <div class="user_text">
