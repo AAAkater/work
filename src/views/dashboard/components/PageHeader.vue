@@ -20,18 +20,26 @@ import {
     CopyDocument,
     Rank
 } from "@element-plus/icons-vue"
-import { ref, type Ref, inject, markRaw } from "vue";
+import { ref, type Ref, inject, markRaw, computed } from "vue";
+import { useFilesStore } from "@/stores";
+// const filesStore: any = inject("filesStore")
+const filesStore = useFilesStore()
 // 输入框值
 const searchInput: Ref<string> = ref("")
-// 当前文件夹名
-const currentFolder: Ref<string> = ref("")
 // 面包屑路径
 const paths: Ref<string[]> = ref(["homepage", "r1", "r2"])
+// 当前文件夹名
+const currentFolder = computed(() => {
+    return paths.value[paths.value.length - 1]
+})
 // 返回上一页
 const backButton = () => {
     ElMessage("back")
+    if (paths.value.length === 1) {
+        return
+    }
+    paths.value.pop()
 }
-const filesStore: any = inject("filesStore")
 // 被选中文件的按钮组
 const buttonGroup = ref([
     {
@@ -71,6 +79,17 @@ const buttonGroup = ref([
     },
 ])
 
+// 上传文件按钮
+const uploadFile = () => {
+    ElMessage("上传文件")
+}
+// 创建新文件夹按钮
+const createNewFolder = () => {
+    ElMessage("创建新文件夹")
+}
+
+
+
 
 </script>
 
@@ -78,13 +97,13 @@ const buttonGroup = ref([
     <div class="buttons">
         <div>
             <div v-if="filesStore.isEmpty">
-                <el-button type="primary">
+                <el-button type="primary" @click="uploadFile">
                     <el-icon>
                         <Upload />
                     </el-icon>
                     <span>上传文件</span>
                 </el-button>
-                <el-button type="primary" text>
+                <el-button type="primary" text @click="createNewFolder">
                     <el-icon>
                         <FolderAdd />
                     </el-icon>
@@ -118,7 +137,7 @@ const buttonGroup = ref([
             </el-breadcrumb>
         </template>
         <template #content>
-            <span class="text-large font-600 mr-3"> {{ paths.slice(-1)[0] }} </span>
+            <span class="text-large font-600 mr-3"> {{ currentFolder }} </span>
         </template>
     </el-page-header>
 </template>

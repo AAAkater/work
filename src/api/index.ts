@@ -19,6 +19,5 @@ export * from "./modules/file/delete-folder";
 export * from "./modules/file/get-folder-info";
 export * from "./modules/file/get-file-info";
 
-
 export * from "./modules/verify/get-captcha";
 export * from "./modules/verify/get-email";

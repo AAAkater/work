@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ElIcon, ElMessage, ElTable, ElTableColumn, ElPopover, ElInput } from "element-plus"
 import { ref, type Ref, markRaw, inject } from "vue";
-
 import {
     Document,
     VideoPlay,
@@ -12,18 +11,17 @@ import {
     Picture,
     Headset,
 } from "@element-plus/icons-vue";
-
 import { type file } from "@/stores/type";
-
-import { files } from "./test-data";
-
-const filesStore: any = inject("filesStore")
+// import { files } from "./test-data";
+import { useFilesStore } from "@/stores";
+import { getFolderInfo, getFileInfo } from "@/api";
+import type { AxiosResponse } from "axios";
+const filesStore = useFilesStore()
 filesStore.clearFiles()
 
 const selectionChange = (files: file[]) => {
     filesStore.setFiles(files)
 }
-
 
 const mouseEnter = (row: file) => {
     row.isVisible = true
@@ -31,6 +29,71 @@ const mouseEnter = (row: file) => {
 
 const mouseLeave = (row: file) => {
     row.isVisible = false
+}
+
+const files: Ref<file[]> = ref([])
+
+// 获取文件信息
+async function getFiles(parentFolderId: string) {
+    try {
+        const resp: AxiosResponse = await getFolderInfo({ folderId: parentFolderId })
+        const code: number = resp.status
+        if (code !== 200 || resp.data.code !== 0) {
+            return
+        }
+
+        for (const fileInfo of resp.data.data) {
+            if (fileInfo.isFolder) {
+
+            }
+            const resp2 = await getFileInfo({ fileId: fileInfo.id })
+
+            const moreInfo = resp2.data.data
+            files.value.push({
+                name: fileInfo.name,
+                isFolder: fileInfo.isFolder,
+                updateTime: moreInfo.updateTime,
+                id: fileInfo.id,
+                fileType: moreInfo.fileType,
+                size: moreInfo.size,
+                isVisible: false,
+                icon: markRaw(Picture),
+                options: [
+                    {
+                        name: "下载",
+                        icon: markRaw(Download),
+                        click: () => {
+                            ElMessage("下载");
+                        },
+                    },
+                    {
+                        name: "删除",
+                        icon: markRaw(DocumentDelete),
+                        click: () => {
+                            ElMessage("删除");
+                        },
+                    },
+                    {
+                        name: "编辑",
+                        icon: markRaw(Edit),
+                        click: () => {
+                            ElMessage("编辑");
+                        },
+                    },
+                    {
+                        name: "更多",
+                        icon: markRaw(MoreFilled),
+                        click: () => {
+                            ElMessage("更多");
+                        },
+                    },
+                ]
+            })
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 </script>

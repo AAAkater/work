@@ -1,6 +1,5 @@
-export * from "./modules/files";
 export * from "./modules/user";
-
+export * from "./modules/files";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 

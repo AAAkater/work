@@ -3,9 +3,9 @@ import { request } from "@/utils/request";
 
 const url: string = "/file/getFileInfo";
 
-export const getFileInfo = ({ id }: getFileInfoParam) => {
+export const getFileInfo = ({ fileId }: getFileInfoParam) => {
   const param = {
-    id: id,
+    fileId: fileId,
   };
   return request.get(url, { params: param });
 };

@@ -54,7 +54,7 @@ export interface changePasswordBody {
  * @export
  * @interface updateBody
  */
-export interface updateBody{
+export interface updateBody {
   email: string;
   username: string;
 }
@@ -126,12 +126,12 @@ export interface getFolderInfoParam {
   folderId: string;
 }
 /**
- * 
- * 
+ *
+ *
  * @export
  * @interface getFileInfoParam
  */
-export interface getFileInfoParam{
+export interface getFileInfoParam {
   id: string;
 }
 /**
@@ -212,6 +212,10 @@ export interface modifyFolderNameBody {
  * @export
  * @interface getEmailParam
  */
-export interface getEmailParam{
+export interface getEmailParam {
   email: string;
+}
+
+export interface getFileInfoParam {
+  fileId: string;
 }
