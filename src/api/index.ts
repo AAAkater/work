@@ -18,3 +18,4 @@ export * from "./modules/file/search-file";
 export * from "./modules/file/delete-file";
 export * from "./modules/file/delete-folder";
 export * from "./modules/file/get-folder-info";
+export * from "./modules/file/get-file-info";

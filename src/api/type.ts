@@ -187,3 +187,12 @@ export interface modifyFolderNameBody {
   folderId: string;
   newFolderName: string;
 }
+/**
+ *
+ *
+ * @export
+ * @interface getFileInfoParam
+ */
+export interface getFileInfoParam {
+  fileId: string;
+}
