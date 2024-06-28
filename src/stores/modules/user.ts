@@ -6,7 +6,7 @@ export const useUserStore = defineStore(
   () => {
     const token: Ref<string> = ref("");
     const setToken = (newToken: string) => {
-      token.value = `Bearer ${newToken}`;
+      token.value = newToken;
     };
     const removeToken = () => {
       token.value = "";
