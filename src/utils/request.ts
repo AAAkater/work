@@ -9,7 +9,7 @@ const mock_url = "http://127.0.0.1:4523/m1/4513055-4160394-default";
 const url: string = `http://localhost:8080/`;
 
 const instance = axios.create({
-  baseURL: mock_url,
+  baseURL: url,
   timeout: 1000000,
   headers: {
     Accept: "application/json, text/plain, */*",
