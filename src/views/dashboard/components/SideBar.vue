@@ -21,6 +21,7 @@ import {
     Delete
 } from "@element-plus/icons-vue";
 import { ref, type Ref, markRaw } from "vue";
+import { useInfoStore } from "@/stores";
 
 const isCollapse: Ref<boolean> = ref(true)
 
@@ -32,7 +33,10 @@ const subMenuItems = ref([
     { icon: markRaw(MoreFilled), content: "其他" },
 ])
 
-
+const userClick = () => {
+    const infoStore = useInfoStore()
+    infoStore.isInfo = false
+}
 </script>
 
 <template>
@@ -43,7 +47,7 @@ const subMenuItems = ref([
                 <Fold v-else />
             </el-icon>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="2" @click="userClick">
             <el-icon>
                 <House />
             </el-icon>

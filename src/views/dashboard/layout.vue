@@ -10,7 +10,8 @@ import SideBar from "./components/SideBar.vue"
 import PageHeader from "./components/PageHeader.vue"
 import FileTable from "./components/FileTable.vue"
 import UserInfo from "../user-info-page/UserInfo.vue";
-
+import { useInfoStore } from "@/stores";
+const infoStore = useInfoStore()
 </script>
 
 <template>
@@ -21,9 +22,11 @@ import UserInfo from "../user-info-page/UserInfo.vue";
         <el-container>
             <side-bar />
             <el-main>
-                <!-- <page-header />
-                <file-table /> -->
-                <user-info />
+                <div v-if="!infoStore.isInfo">
+                    <page-header />
+                    <file-table />
+                </div>
+                <user-info v-else />
             </el-main>
         </el-container>
     </el-container>

@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ElSubMenu, ElMenu, ElMenuItem, ElAvatar, ElIcon } from "element-plus";
+import { ElSubMenu, ElMenu, ElMenuItem, ElAvatar, ElIcon, ElMessage } from "element-plus";
 import { UserFilled, Back, Help } from "@element-plus/icons-vue";
 import { ref, type Ref } from "vue";
+import { useRouter } from "vue-router";
+import { useInfoStore } from "@/stores";
 
+const router = useRouter()
 const activeIndex: Ref<string> = ref("1");
 const errorHandler = () => true
-
+const userClick = () => {
+    // ElMessage("个人")
+    // router.push("/userInfo")
+    const infoStore = useInfoStore()
+    infoStore.isInfo = true
+}
 </script>
 
 <template>
@@ -18,7 +26,7 @@ const errorHandler = () => true
                     <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
                 </el-avatar>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="2-1" @click="userClick">
                 <el-icon>
                     <UserFilled />
                 </el-icon>
