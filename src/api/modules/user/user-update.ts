@@ -3,7 +3,7 @@ import { type updateBody } from "@/api/type";
 
 const url: string = "/user/update";
 
-export const userRegister = async ({
+export const userUpdate = async ({
   email,
   username,
 }: updateBody) => {

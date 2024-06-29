@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, onMounted } from 'vue';
 import type { ComponentSize } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { userLogin } from '@/api'
+import { userUpdate, getUserInfo } from '@/api'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
 
@@ -19,7 +19,7 @@ const iconStyle = computed(() => {
         marginRight: marginMap[size.value] || marginMap.default,
     }
 })
-const nickname = ref('用户名')
+const nickname = ref('网盘达人')
 const design = ref("我行我素")
 const account = ref('Asher')
 const age = ref('18')
@@ -39,33 +39,49 @@ const openDialog = () => {
         form.username = account.value,
         dialogFormVisible.value = true
 }
-const submit = async () => {
-    // await userUpdate({
-    //     username: form.username,
-    //     email: form.email,
-    // }).then((res) => {
-    //     console.log("修改成功");
-    //     console.log(res);
-    //     if (res.status == 200) {
-    //         if (form.gender == '1') {
-    //             sex.value = '男'
-    //         }
-    //         else {
-    //             sex.value = '女'
-    //         }
+//获取个人信息接口
+onMounted(async () => {
+    const res = await getUserInfo()
+    if (res.status === 200) {
+        account.value = res.data.data.username
+        email.value = res.data.data.email
+        console.log(res);
 
-    //         ElMessage({
-    //             message: '修改成功',
-    //             type: 'success',
-    //         })
-    //     }
-    // }).catch((err) => {
-    //     console.log(err);
-    //     ElMessage({
-    //         message: '修改失败',
-    //         type: 'error'
-    //     })
-    // })
+        console.log('获取成功');
+    }
+    else {
+        console.log('获取信息失败');
+        return false
+    }
+})
+//修改信息接口
+const submit = async () => {
+    await userUpdate({
+        username: form.username,
+        email: form.email,
+    }).then((res) => {
+        console.log("修改成功");
+        console.log(res);
+        if (res.status == 200) {
+            if (form.gender == '1') {
+                sex.value = '男'
+            }
+            else {
+                sex.value = '女'
+            }
+
+            ElMessage({
+                message: '修改成功',
+                type: 'success',
+            })
+        }
+    }).catch((err) => {
+        console.log(err);
+        ElMessage({
+            message: '修改失败',
+            type: 'error'
+        })
+    })
 
     dialogFormVisible.value = false;
 };
@@ -223,7 +239,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                                     </el-icon>
                                     注册日期
                                 </template>
-                                {{ createDate | formatDate }}
+                                {{ '2024/06/20' }}
                             </el-descriptions-item>
                         </el-descriptions>
                     </el-card>
