@@ -18,26 +18,15 @@ const form = reactive({
 
 
 const formRef = ref(null)
+
+//登录接口
 const onSubmit = async () => {
     await formRef.value.validate(async (valid: any) => {
         if (!valid) {
             return false
         }
-        // 请求登录
-        // let res = await userLogin({
-        //     username: form.username,
-        //     password: form.password,
-        //     captcha: form.captcha,
-        //     captchaId: form.captchaId
-        // })
-        // if (res.status !== 200) {
-        //     return false
-        // }
 
-        // if (res.data.data.message === 'ok') {
-        //     console.log("验证通过");
-        // }
-
+        //请求登录
         await userLogin({
             username: form.username,
             password: form.password,
@@ -57,7 +46,7 @@ const onSubmit = async () => {
                 })
 
                 //跳转
-                router.push("/layout")
+                router.push("/dashboard")
             }
 
         }).catch(err => {
@@ -234,8 +223,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 type: 'success',
                 duration: 2000
             })
-            //跳转
-            router.push("/layout")
+            dialogVisible.value = false
         }
 
     }).catch(err => {
