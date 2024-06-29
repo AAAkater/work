@@ -5,7 +5,7 @@ import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
-import FootRight from './components/FootRight.vue';
+
 
 const size = ref<ComponentSize>('default')
 const iconStyle = computed(() => {

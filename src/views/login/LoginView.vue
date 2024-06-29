@@ -69,7 +69,13 @@ const onSubmit = async () => {
     })
 }
 const handleClose = (done: () => void) => {
-    ElMessageBox.confirm('你是否确定取消注册?')
+    ElMessageBox.confirm('你是否确定取消注册?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-warning',
+        customClass: 'custom-confirm-box'
+    })
         .then(() => {
             done()
         })
