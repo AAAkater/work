@@ -5,7 +5,7 @@ import axios, {
   type AxiosResponse,
 } from "axios";
 import { isValidToken } from "./isValidToken";
-const mock_url = "http://127.0.0.1:4523/m1/4513055-4160394-default";
+// const mock_url = "http://127.0.0.1:4523/m1/4513055-4160394-default";
 const url: string = `http://localhost:8080/`;
 
 const instance = axios.create({

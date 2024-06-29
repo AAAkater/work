@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, onMounted } from 'vue';
 import type { ComponentSize } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import { userUpdate, getUserInfo } from '@/api'
 import Header from './components/Header.vue';
 import FootLeft from './components/FootLeft.vue';
-import FootRight from './components/FootRight.vue';
+
 
 const size = ref<ComponentSize>('default')
 const iconStyle = computed(() => {
@@ -18,31 +19,78 @@ const iconStyle = computed(() => {
         marginRight: marginMap[size.value] || marginMap.default,
     }
 })
-const nickname = ref('用户名')
+const nickname = ref('网盘达人')
 const design = ref("我行我素")
 const account = ref('Asher')
-const age = ref()
+const age = ref('18')
 const sex = ref('男')
-const email = ref()
+const email = ref('3473320899@qq.com')
 const mobilePhoneNumber = ref('18428074640')
 const area = ref("四川")
-const hobby = ref()
-const work = ref()
+const hobby = ref("写代码")
+const work = ref("针灸推拿")
 
 
 
 const dialogFormVisible = ref(false)
-const form = reactive({
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+const openDialog = () => {
+    form.email = email.value,
+        form.gender = sex.value,
+        form.username = account.value,
+        dialogFormVisible.value = true
+}
+//获取个人信息接口
+onMounted(async () => {
+    const res = await getUserInfo()
+    if (res.status === 200) {
+        account.value = res.data.data.username
+        email.value = res.data.data.email
+        console.log(res);
+
+        console.log('获取成功');
+    }
+    else {
+        console.log('获取信息失败');
+        return false
+    }
 })
-const formLabelWidth = '50px'
+//修改信息接口
+const submit = async () => {
+    await userUpdate({
+        username: form.username,
+        email: form.email,
+    }).then((res) => {
+        console.log("修改成功");
+        console.log(res);
+        if (res.status == 200) {
+            if (form.gender == '1') {
+                sex.value = '男'
+            }
+            else {
+                sex.value = '女'
+            }
+
+            ElMessage({
+                message: '修改成功',
+                type: 'success',
+            })
+        }
+    }).catch((err) => {
+        console.log(err);
+        ElMessage({
+            message: '修改失败',
+            type: 'error'
+        })
+    })
+
+    dialogFormVisible.value = false;
+};
+const form = reactive({
+    username: '',
+    email: '',
+    gender: ''
+})
+const formLabelWidth = '70px'
 
 const imageUrl = ref('')
 
@@ -76,8 +124,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                     <el-card>
                         <el-descriptions class="margin-top" title="简介" :column="2" size="large" border>
                             <template #extra>
-                                <el-button type="primary" size="medium" plain
-                                    @click="dialogFormVisible = true">操作</el-button>
+                                <el-button type="primary" size="medium" plain @click="openDialog()">操作</el-button>
                             </template>
                             <!-- 列表 -->
                             <el-descriptions-item width>
@@ -192,7 +239,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                                     </el-icon>
                                     注册日期
                                 </template>
-                                {{ createDate | formatDate }}
+                                {{ '2024/06/20' }}
                             </el-descriptions-item>
                         </el-descriptions>
                     </el-card>
@@ -215,10 +262,13 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="姓名" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" />
+                    <el-input v-model="form.username" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="Email" :label-width="formLabelWidth">
+                    <el-input v-model="form.email" autocomplete="off" />
                 </el-form-item>
                 <el-form-item label="性别" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择性别">
+                    <el-select v-model="form.gender" placeholder="请选择性别">
                         <el-option label="男" value="1" />
                         <el-option label="女" value="0" />
                     </el-select>
@@ -227,7 +277,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取消</el-button>
-                    <el-button type="primary" @click="dialogFormVisible = false">
+                    <el-button type="primary" @click="submit()">
                         确认修改
                     </el-button>
                 </div>

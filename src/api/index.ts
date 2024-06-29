@@ -3,6 +3,9 @@ export * from "./modules/user/user-register";
 export * from "./modules/user/change-password";
 export * from "./modules/user/user-logout";
 export * from "./modules/user/user-signout";
+export * from "./modules/user/user-update";
+export * from "./modules/user/get-user-avatar";
+export * from "./modules/user/get-user-info";
 
 export * from "./modules/file/upload-file";
 export * from "./modules/file/create-folder";
