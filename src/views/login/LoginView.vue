@@ -44,19 +44,22 @@ const onSubmit = async () => {
             captcha: form.captcha,
             captchaId: form.captchaId
         }).then((res) => {
-            console.log("验证通过");
+
             console.log(res)
 
-            //提示成功
-            ElNotification({
-                message: '登陆成功！',
-                type: 'success',
-                duration: 2000
-            })
-            //存储token
+            if (res.data.code === 0) {
+                console.log("验证通过");
+                //提示成功
+                ElNotification({
+                    message: '登陆成功！',
+                    type: 'success',
+                    duration: 2000
+                })
 
-            //跳转
-            router.push("/layout")
+                //跳转
+                router.push("/layout")
+            }
+
         }).catch(err => {
             console.log(err);
             ElNotification({
@@ -121,7 +124,6 @@ const convertBase64ToImage = () => {
         canvas.width = img.width;
         canvas.height = img.height;
         context.drawImage(img, 0, 0);
-
         const imageURL = canvas.toDataURL('image/png');
         imgSrc.value = imageURL;
     };
@@ -130,19 +132,15 @@ const convertBase64ToImage = () => {
 //获取验证码
 const gainCaptcha = async () => {
     let res = await getCaptcha()
+    console.log(res);
+
     if (res.status != 200) {
         console.log("获取失败");
-
         return false
     }
-    // if (res.data.data.message === 'ok') {
-    //     console.log("获取成功");
-    //     base64Data.value = convertBase64ToStr(res.data.data.captcha);
-    //     convertBase64ToImage()
-    // }
-    else {//todo if (res.data.data.message === 'ok')
+    if (res.data.message === 'ok') {
         console.log("获取成功");
-        base64Data.value = convertBase64ToStr(res.data.data.captcha);
+        base64Data.value = convertBase64ToStr(res.data.data.base64);
         convertBase64ToImage()
     }
 }
@@ -206,6 +204,7 @@ const rules = reactive<FormRules<RuleForm>>({
     ]
 })
 
+//注册接口
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
@@ -224,17 +223,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         email: ruleForm.email,
         emailCode: ruleForm.emailCode
     }).then((res) => {
-        console.log("验证通过");
+
         console.log(res)
 
-        //提示成功
-        ElNotification({
-            message: '注册成功！',
-            type: 'success',
-            duration: 2000
-        })
-        //跳转
-        router.push("/layout")
+        if (res.data.code === 0) {
+            console.log("验证通过");
+            //提示成功
+            ElNotification({
+                message: '注册成功！',
+                type: 'success',
+                duration: 2000
+            })
+            //跳转
+            router.push("/layout")
+        }
+
     }).catch(err => {
         console.log(err);
         ElNotification({
@@ -301,7 +304,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
                         </template>
                     </el-input>
                 </el-form-item>
-                <img alt="验证码图片"> <!-- 展示验证码图片 -->
+                <img :src="imgSrc" alt="验证码图片"> <!-- 展示验证码图片 -->
                 <el-button type="text" @click="gainCaptcha">获取验证码</el-button> <!-- 获取验证码图片的按钮 -->
 
                 <el-form-item>
