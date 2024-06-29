@@ -40,32 +40,32 @@ const openDialog = () => {
         dialogFormVisible.value = true
 }
 const submit = async () => {
-    await userUpdate({
-        username: form.username,
-        email: form.email,
-    }).then((res) => {
-        console.log("修改成功");
-        console.log(res);
-        if (res.status == 200) {
-            if (form.gender == '1') {
-                sex.value = '男'
-            }
-            else {
-                sex.value = '女'
-            }
+    // await userUpdate({
+    //     username: form.username,
+    //     email: form.email,
+    // }).then((res) => {
+    //     console.log("修改成功");
+    //     console.log(res);
+    //     if (res.status == 200) {
+    //         if (form.gender == '1') {
+    //             sex.value = '男'
+    //         }
+    //         else {
+    //             sex.value = '女'
+    //         }
 
-            ElMessage({
-                message: '修改成功',
-                type: 'success',
-            })
-        }
-    }).catch((err) => {
-        console.log(err);
-        ElMessage({
-            message: '修改失败',
-            type: 'error'
-        })
-    })
+    //         ElMessage({
+    //             message: '修改成功',
+    //             type: 'success',
+    //         })
+    //     }
+    // }).catch((err) => {
+    //     console.log(err);
+    //     ElMessage({
+    //         message: '修改失败',
+    //         type: 'error'
+    //     })
+    // })
 
     dialogFormVisible.value = false;
 };
