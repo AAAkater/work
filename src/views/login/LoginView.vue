@@ -70,7 +70,13 @@ const onSubmit = async () => {
     })
 }
 const handleClose = (done: () => void) => {
-    ElMessageBox.confirm('你是否确定取消注册?')
+    ElMessageBox.confirm('你是否确定取消注册?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        iconClass: 'el-icon-warning',
+        customClass: 'custom-confirm-box'
+    })
         .then(() => {
             done()
         })
@@ -229,8 +235,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             type: 'success',
             duration: 2000
         })
-        //跳转
-        router.push("/layout")
+        // //跳转
+        // router.push("/layout")
     }).catch(err => {
         console.log(err);
         ElNotification({
@@ -241,7 +247,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 
 }
-
+//重置函数
 const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
@@ -297,7 +303,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
                         </template>
                     </el-input>
                 </el-form-item>
-                <img alt="验证码图片"> <!-- 展示验证码图片 -->
+                <img :src="imgSrc" alt="验证码图片"> <!-- 展示验证码图片 -->
                 <el-button type="text" @click="gainCaptcha">获取验证码</el-button> <!-- 获取验证码图片的按钮 -->
 
                 <el-form-item>
