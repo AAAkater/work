@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { userLogin, getCaptcha, userRegister } from "@/api";
+import { userLogin, getCaptcha, userRegister, getEmail } from "@/api";
 import { reactive, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
@@ -118,7 +118,7 @@ const convertBase64ToImage = () => {
     };
 };
 
-//获取验证码
+//获取图像验证码
 const gainCaptcha = async () => {
     let res = await getCaptcha()
     console.log(res);
@@ -131,9 +131,22 @@ const gainCaptcha = async () => {
         console.log("获取成功");
         base64Data.value = convertBase64ToStr(res.data.data.base64);
         convertBase64ToImage()
+        ruleForm.captchaId = res.data.data.captchaId
     }
 }
-
+//获取邮箱验证码
+const getEmailCode = async () => {
+    let res = await getEmail({
+        email: ruleForm.email
+    })
+    if (res.status === 200) {
+        console.log('验证码已发送');
+        console.log(res);
+    }
+    else {
+        console.log("获取验证码失败");
+    }
+}
 //注册表单验证
 interface RuleForm {
     username: string
@@ -157,6 +170,41 @@ const ruleForm = reactive<RuleForm>({
     emailCode: ''
 })
 
+//注册参数
+const imgSrc1 = ref('')
+const base64Data1 = ref('');
+
+const convertBase64ToImage1 = () => {
+    const img = new Image();
+    img.src = base64Data1.value;
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        context.drawImage(img, 0, 0);
+        const imageURL = canvas.toDataURL('image/png');
+        imgSrc1.value = imageURL;
+    };
+};
+//获取注册图像验证码
+const gainCaptcha1 = async () => {
+    let res = await getCaptcha()
+    console.log(res);
+
+    if (res.status != 200) {
+        console.log("获取失败");
+        return false
+    }
+    if (res.data.message === 'ok') {
+        console.log("获取成功");
+        base64Data1.value = convertBase64ToStr(res.data.data.base64);
+        convertBase64ToImage1()
+        ruleForm.captchaId = res.data.data.Id
+        console.log('captchaId为', res.data.data.Id);
+
+    }
+}
 
 
 const validatePass2 = (rule: any, value: any, callback: any) => {
@@ -168,6 +216,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
         callback()
     }
 }
+const emailPattern = /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
 const rules = reactive<FormRules<RuleForm>>({
     username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -186,10 +235,14 @@ const rules = reactive<FormRules<RuleForm>>({
         { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
     ],
     email: [
-        { required: true, message: '请输入邮箱', trigger: 'blur' }
+        { required: true, message: '请输入邮箱', trigger: 'blur' },
+        { pattern: emailPattern, message: '请输入正确的邮箱格式', trigger: ['blur', 'change'] }
+    ],
+    emailCode: [
+        { required: true, message: '请输入邮箱验证码', trigger: 'blur' }
     ],
     captcha: [
-        { required: true, message: '请输入验证码', trigger: 'blur' }
+        { required: true, message: '请输入图像验证码', trigger: 'blur' }
     ]
 })
 
@@ -224,6 +277,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 duration: 2000
             })
             dialogVisible.value = false
+        }
+        else {
+            ElNotification({
+                message: res.data.message || '请求失败',
+                type: 'error',
+                duration: 2000
+            })
         }
 
     }).catch(err => {
@@ -306,9 +366,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
     </el-row>
 
 
-    <el-dialog v-model="dialogVisible" title="注册账户" width="650" :before-close="handleClose" draggable="true">
+    <el-dialog v-model="dialogVisible" title="注册账户" width="500" :before-close="handleClose" draggable="true">
 
-        <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+        <el-form ref="ruleFormRef" style="max-width: 500px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="用户名" prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入用户名" />
@@ -321,14 +381,24 @@ const resetForm = (formEl: FormInstance | undefined) => {
                     placeholder="请确认密码"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
-                <el-input v-model="ruleForm.email" autocomplete="off" placeholder="请输入邮箱"></el-input>
+                <el-row>
+                    <el-col :span="18">
+                        <el-input v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-button type="primary" @click="getEmailCode">获取邮箱验证码</el-button>
+                    </el-col>
+                </el-row>
             </el-form-item>
-            <el-form-item label="验证码" prop="captcha">
-                <el-input v-model="form.captcha" placeholder="请输入验证码" clearable>
+            <el-form-item label="邮箱验证码" prop="emailCode">
+                <el-input v-model="ruleForm.emailCode" placeholder="请输入邮箱验证码"></el-input>
+            </el-form-item>
+            <el-form-item label="图片验证码" prop="captcha">
+                <el-input v-model="ruleForm.captcha" placeholder="请输入图片验证码" clearable>
                 </el-input>
             </el-form-item>
-            <img :src="imgSrc" alt="验证码图片"> <!-- 展示验证码图片 -->
-            <el-button type="text" @click="gainCaptcha">获取验证码</el-button> <!-- 获取验证码图片的按钮 -->
+            <img :src="imgSrc1" alt="验证码图片"> <!-- 展示验证码图片 -->
+            <el-button type="text" @click="gainCaptcha1">获取验证码</el-button> <!-- 获取验证码图片的按钮 -->
 
 
             <el-form-item>
