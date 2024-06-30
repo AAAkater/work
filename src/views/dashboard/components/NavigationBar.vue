@@ -4,6 +4,7 @@ import { UserFilled, Back, Help } from "@element-plus/icons-vue";
 import { ref, type Ref } from "vue";
 import { useRouter } from "vue-router";
 import { useInfoStore } from "@/stores";
+import { userSignout } from "@/api";
 
 const router = useRouter()
 const activeIndex: Ref<string> = ref("1");
@@ -13,6 +14,18 @@ const userClick = () => {
     // router.push("/userInfo")
     const infoStore = useInfoStore()
     infoStore.isInfo = true
+}
+
+const signout = async () => {
+    let res = await userSignout()
+    let code = res.status
+    if (code !== 200) {
+        ElMessage.error("退出失败")
+        return
+    }
+
+    ElMessage.success("退出成功")
+    router.push("/login")
 }
 </script>
 
@@ -38,7 +51,7 @@ const userClick = () => {
                 </el-icon>
                 <span>帮助中心</span>
             </el-menu-item>
-            <el-menu-item index="2-3">
+            <el-menu-item index="2-3" @click="signout">
                 <el-icon>
                     <Back />
                 </el-icon>

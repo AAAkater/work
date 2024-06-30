@@ -5,7 +5,7 @@ const url: string = "/file/getFileInfo";
 
 export const getFileInfo = ({ fileId }: getFileInfoParam) => {
   const param = {
-    fileId: fileId,
+    id: fileId,
   };
   return request.get(url, { params: param });
 };

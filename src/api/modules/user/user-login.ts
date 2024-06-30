@@ -22,9 +22,10 @@ export const userLogin = async ({
 
   const res = await request.post(url, body);
   // 登录成功就存储token
-  if (res.status === 200 && res.data.message === "ok") {
+  if (res.status === 200 && res.data.code === 0) {
     const userStore = useUserStore();
     userStore.setUserToken(res.data.data);
+    console.log("token存储成功");
   }
 
   return res;

@@ -23,9 +23,12 @@ const router = createRouter({
     },
   ],
 });
-// router.beforeEach((to, from) => {
-//   const userStore = useUserStore();
-//   if (!isValidToken(userStore.userToken) && to.path !== "/login")
-//     return "/login";
-// });
+router.beforeEach((to, from) => {
+  if (to.path === "/") {
+    return "/login";
+  }
+  const userStore = useUserStore();
+  if (!isValidToken(userStore.userToken) && to.path !== "/login")
+    return "/login";
+});
 export default router;

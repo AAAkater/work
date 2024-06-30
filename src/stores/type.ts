@@ -12,11 +12,12 @@ export interface option {
 export interface file {
   name: string;
   isFolder: boolean;
-  updateTime: string;
+  updateTime?: string;
   id: string;
-  fileType: string;
-  size: number;
+  fileType?: string;
+  size?: number;
   icon: any;
   isVisible: boolean;
+  centerDialogVisible: boolean;
   options: option[];
 }

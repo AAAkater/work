@@ -1,7 +1,7 @@
 import { request } from "@/utils/request";
 import { type createFolderBody } from "@/api/type";
 
-const url: string = "/file/createFolder";
+const url: string = "/folder/createFolder";
 export const createFolder = ({
   parentFolderId,
   folderName,

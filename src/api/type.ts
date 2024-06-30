@@ -67,7 +67,7 @@ export interface updateBody {
  */
 export interface uploadFileBody {
   fileType: string;
-  file: File;
+  file: any;
   parentFolderId: string;
 }
 /**

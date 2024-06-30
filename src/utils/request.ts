@@ -21,9 +21,11 @@ instance.interceptors.request.use(
     const userStore = useUserStore();
     // 为所有请求设置token
     if (isValidToken(userStore.userToken)) {
-      config.headers.Authorization = `Bearer ${userStore.userToken}`;
+      config.headers.Authorization = `${userStore.userToken}`;
     }
     console.log(config.headers);
+    console.log(config.data);
+
     return config;
   },
   (error: Error | AxiosError) => {

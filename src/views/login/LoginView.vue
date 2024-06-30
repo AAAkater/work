@@ -16,7 +16,7 @@ const form = reactive({
     captchaId: ''
 })
 
-
+const captchaId = ref("")
 const formRef = ref(null)
 
 //登录接口
@@ -31,7 +31,7 @@ const onSubmit = async () => {
             username: form.username,
             password: form.password,
             captcha: form.captcha,
-            captchaId: form.captchaId
+            captchaId: captchaId.value
         }).then((res) => {
 
             console.log(res)
@@ -128,7 +128,8 @@ const gainCaptcha = async () => {
         return false
     }
     if (res.data.message === 'ok') {
-        console.log("获取成功");
+        captchaId.value = res.data.data.Id;
+        console.log(`获取成功captchaId:${captchaId.value}`)
         base64Data.value = convertBase64ToStr(res.data.data.base64);
         convertBase64ToImage()
     }

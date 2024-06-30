@@ -7,7 +7,9 @@ import {
     ElButton,
     ElInput,
     ElMessage,
-    ElButtonGroup
+    ElButtonGroup,
+    ElUpload,
+    type UploadFile
 } from "element-plus";
 
 import {
@@ -20,10 +22,12 @@ import {
     CopyDocument,
     Rank
 } from "@element-plus/icons-vue"
-import { ref, type Ref, inject, markRaw, computed } from "vue";
-import { useFilesStore } from "@/stores";
-// const filesStore: any = inject("filesStore")
+import { ref, type Ref, markRaw, computed } from "vue";
+import { useFilesStore, useUserStore } from "@/stores";
+import { createFolder, uploadFile } from "@/api";
+const userStore = useUserStore()
 const filesStore = useFilesStore()
+const uploadFileList: Ref<File[]> = ref([])
 // 输入框值
 const searchInput: Ref<string> = ref("")
 // 面包屑路径
@@ -80,12 +84,48 @@ const buttonGroup = ref([
 ])
 
 // 上传文件按钮
-const uploadFile = () => {
+const uploadFileButton = async (file: any) => {
     ElMessage("上传文件")
+
+    let Id = userStore.userRootDir
+    console.log("这是文件" + file);
+
+    let res = await uploadFile({
+        file: file.file,
+        parentFolderId: Id,
+        fileType: "txt",
+    })
+
+    if (res.status !== 200) {
+        ElMessage.error("上传失败")
+        return
+    }
+
+    if (res.data.code === 0) {
+        ElMessage.success("上传成功")
+        return
+    }
 }
 // 创建新文件夹按钮
-const createNewFolder = () => {
-    ElMessage("创建新文件夹")
+const createNewFolder = async () => {
+    // ElMessage("创建新文件夹")
+    let name = "新建文件夹"
+    let Id = userStore.userRootDir
+    let res = await createFolder({
+        folderName: name,
+        parentFolderId: Id
+    })
+
+    if (res.status !== 200) {
+        console.error("新文件夹创建失败")
+        return
+    }
+
+    if (res.data.code == 0) {
+        console.log("新文件夹创建成功")
+        return
+    }
+
 }
 
 
@@ -96,13 +136,16 @@ const createNewFolder = () => {
 <template>
     <div class="buttons">
         <div>
-            <div v-if="filesStore.isEmpty">
-                <el-button type="primary" @click="uploadFile">
-                    <el-icon>
-                        <Upload />
-                    </el-icon>
-                    <span>上传文件</span>
-                </el-button>
+            <div v-if="filesStore.isEmpty" style="display: flex;">
+                <el-upload :show-file-list="false" :auto-upload="true" :http-request="uploadFileButton" :limit="1"
+                    :on-success="() => ElMessage.success('上传成功')">
+                    <el-button type="primary">
+                        <el-icon>
+                            <Upload />
+                        </el-icon>
+                        <span>上传文件</span>
+                    </el-button>
+                </el-upload>
                 <el-button type="primary" text @click="createNewFolder">
                     <el-icon>
                         <FolderAdd />

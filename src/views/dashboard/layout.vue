@@ -11,6 +11,7 @@ import PageHeader from "./components/PageHeader.vue"
 import FileTable from "./components/FileTable.vue"
 import UserInfo from "../user-info-page/UserInfo.vue";
 import { useInfoStore } from "@/stores";
+import Pagination from "./components/Pagination.vue"
 const infoStore = useInfoStore()
 </script>
 
@@ -22,9 +23,14 @@ const infoStore = useInfoStore()
         <el-container>
             <side-bar />
             <el-main>
-                <div v-if="!infoStore.isInfo">
-                    <page-header />
-                    <file-table />
+                <div v-if="!infoStore.isInfo" style="height: 100%;">
+                    <div style="height: 90%;">
+                        <page-header />
+                        <file-table />
+                    </div>
+                    <div class="pa">
+                        <pagination />
+                    </div>
                 </div>
                 <user-info v-else />
             </el-main>
@@ -46,5 +52,13 @@ const infoStore = useInfoStore()
 .aside {
     height: 100%;
     // outline: auto red;
+}
+
+.pa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: 0;
 }
 </style>
